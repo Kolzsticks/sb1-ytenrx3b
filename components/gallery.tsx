@@ -52,28 +52,27 @@ export function Gallery() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {images.map((image) => (
-        <Link
+        <motion.div
           key={image.id}
-          href={`/photos/${image.id}`}
-          onClick={() => setSelectedImage(image.id)}
+          className={cn(
+            "relative aspect-square overflow-hidden rounded-lg cursor-pointer",
+            "hover:shadow-xl transition-shadow duration-300"
+          )}
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.2 }}
+          onClick={() => {
+            setSelectedImage(image.id);
+            router.push(`/photos/${image.id}`, { scroll: false });
+          }}
         >
-          <motion.div
-            className={cn(
-              "relative aspect-square overflow-hidden rounded-lg cursor-pointer",
-              "hover:shadow-xl transition-shadow duration-300"
-            )}
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.2 }}
-          >
-            <Image
-              src={image.url}
-              alt={image.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          </motion.div>
-        </Link>
+          <Image
+            src={image.url}
+            alt={image.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        </motion.div>
       ))}
     </div>
   );
